@@ -6,7 +6,8 @@ let userModel = require("../schemas/users");
 
 router.get("/", async function (req, res, next) {
   let users = await userModel
-    .find({ isDeleted: false })
+    .find({ isDeleted: false }).
+    populate({ path: 'role', select: 'name' })
   res.send(users);
 });
 

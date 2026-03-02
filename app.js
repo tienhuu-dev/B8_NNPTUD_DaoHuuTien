@@ -28,6 +28,7 @@ mongoose.connection.on('connected', function () {
 app.use('/', require('./routes/index'));
 //localhost:3000/users
 app.use('/users', require('./routes/users'));
+app.use('/roles', require('./routes/roles'));
 app.use('/products', require('./routes/products'));
 
 // catch 404 and forward to error handler
