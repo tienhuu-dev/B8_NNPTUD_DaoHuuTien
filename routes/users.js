@@ -16,6 +16,20 @@ router.get("/", checkLogin, checkRole("ADMIN"), async function (req, res, next) 
   res.send(result)
 });
 
+router.post("/import-excel", async function (req, res, next) {
+  try {
+    const filePath = 'user.xlsx';
+    const defaultRoleId = '69a4f929f8d941f2dd234b88';
+    let results = await userController.importUsersFromExcel(filePath, defaultRoleId);
+    res.send({
+      message: "Import process completed",
+      summary: results
+    });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
 router.get("/:id", checkLogin, checkRole("ADMIN", "MODERATOR"), async function (req, res, next) {
   try {
     let result = await userController.FindByID(req.params.id)

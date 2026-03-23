@@ -3,11 +3,10 @@ const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
     host: "sandbox.smtp.mailtrap.io",
-    port: 25,
-    secure: false, // Use true for port 465, false for port 587
+    port: 2525,
     auth: {
-        user: "afb860a426d68e",
-        pass: "d3964b7baf52ff",
+        user: "459c719b2aa095",
+        pass: "30cdfc49ab9a52",
     },
 });
 
@@ -20,5 +19,23 @@ module.exports = {
             text: "click vao day de reset password", // Plain-text version of the message
             html: "click vao <a href=" + url + ">day</a> de reset password", // HTML version of the message
         });
+    },
+    sendCredentialMail: async function (to, username, password) {
+        try {
+            const info = await transporter.sendMail({
+                from: 'admin@heha.com',
+                to: to,
+                subject: "Account Credentials",
+                text: `Username: ${username}\nPassword: ${password}`,
+                html: `<h3>Welcome to our platform!</h3>
+                       <p>Your account has been created successfully.</p>
+                       <p><b>Username:</b> ${username}</p>
+                       <p><b>Password:</b> ${password}</p>
+                       <p>Please login and change your password immediately.</p>`
+            });
+            console.log(`Email sent to: ${to}`);
+        } catch (error) {
+            console.error(`Error sending email to ${to}:`, error.message);
+        }
     }
 }
